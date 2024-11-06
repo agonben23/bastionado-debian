@@ -1,0 +1,121 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Bastionado del GRUB de una Debian</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="bastionado-bios"
+                  title="Bastionado del GRUB de una Debian"
+                  environment="web"
+                  feedback-link="Un enlace en el que los usuarios puedan darte feedback (quizás creando un issue en un repositorio de git)">
+    
+      <google-codelab-step label="Introducción" duration="1">
+        <p>En este Colab profundizaremos sobre como bastionar el GRUB del sistema operativo que estamos utilizando. Para este bastionado usaremos un sistema Debian 12.</p>
+<p>A continuación se encuentra un resumen de los puntos que veremos en este tutorial :</p>
+<ul>
+<li>Como asignar una contraseña al GRUB para proteger el arranque</li>
+<li>Como establecer permisos para mejorar la seguridad de los archivos de configuración del GRUB</li>
+<li>Como ocultar el menú del GRUB en el arranque</li>
+<li>Como hacer una copia de seguridad de los archivos del GRUB</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Requisitos previos" duration="1">
+        <p>Para llevar a cabo las configuraciones se necesita acceder a la terminal del comandos del sistema</p>
+<p>Para ello abrimos la pestaña de aplicaciones y ejecutamos la terminal de comandos (Zutty)</p>
+<p class="image-container"><img src="img/e4e5f0c2607e5b69.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Asignar una contraseña al GRUB" duration="2">
+        <p>Para proteger el acceso al menú de GRUB, estableceremos una contraseña en el archivo de configuración <em>40_custom</em>:</p>
+<p>Edita el archivo <em>40_custom</em> con permisos de administrador:</p>
+<pre><code language="language-bash" class="language-bash">set superusers=&#34;root&#34;
+password root CONTRASEÑA
+</code></pre>
+<p class="image-container"><img src="img/5037160e5ba2ef35.png"></p>
+<p>Añadimos las siguientes líneas al final del archivo para definir un usuario con permisos de superusuario en GRUB:</p>
+<p class="image-container"><img src="img/9683af79d2bd99c9.png"></p>
+<p>Guardamo y cerramos el archivo.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Establecer permisos de seguridad de los archivos de configuración del GRUB" duration="1">
+        <p>Para asegurarnos de que solo el usuario root pueda modificar el archivo de configuración de GRUB, ajusta los permisos:</p>
+<p class="image-container"><img src="img/fa60a898ead7b1c5.png"></p>
+<p>Esto restringirá el acceso a estos archivos, permitiendo que solo el usuario root pueda leer y modificar los archivos críticos.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Ocultar el Menú de GRUB en el Inicio" duration="2">
+        <p>Para evitar que el menú de GRUB sea visible en el arranque, puedes configurar el tiempo de espera a 0 en el archivo grub:</p>
+<p>Editamos el archivo grub en /etc/default/:</p>
+<p class="image-container"><img src="img/5e9cca5113fdb0f7.png"></p>
+<p>Cambiamos la línea de tiempo de espera:</p>
+<pre><code language="language-plaintext" class="language-plaintext">GRUB_TIMEOUT=0
+</code></pre>
+<p class="image-container"><img src="img/24ca507672af42d7.png"></p>
+<p>Guardamos y cierra el archivo.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Aplicar cambios en archivos GRUB" duration="1">
+        <p>Después de realizar cambios en los archivos de configuración, debemos regenerar el archivo principal grub.cfg:</p>
+<pre><code language="language-bash" class="language-bash">sudo update-grub
+</code></pre>
+<p class="image-container"><img src="img/bc2f7630917f942c.png"></p>
+<p>Esto aplicará los cambios al archivo /boot/grub/grub.cfg.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Copia de seguridad de archivos GRUB" duration="0">
+        <p>Duration 0:02:00</p>
+<p>Para crear una copia de seguridad de la configuración del GRUB seguiremos estos pasos:</p>
+<p>Realizamos una copia de seguridad del archivo principal de configuración de GRUB  usando el siguiente comando:</p>
+<pre><code language="language-bash" class="language-bash">sudo cp /etc/default/grub /etc/default/grub.bak
+</code></pre>
+<p>Respaldamos los scripts de configuración adicionales copiándolos a un directorio de nuestra elección:</p>
+<pre><code language="language-bash" class="language-bash">sudo cp -r /etc/grub.d/ /ruta/de/tu/respaldo/grub.d/
+</code></pre>
+<p>Copiamos el archivo final de configuración usando el siguiente comando:</p>
+<pre><code language="language-bash" class="language-bash">sudo cp /boot/grub/grub.cfg /ruta/de/tu/respaldo/grub.cfg.bak
+</code></pre>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2024-11-06T13:49:51+01:00",
+  "id": "bastionado-bios",
+  "duration": 8,
+  "title": "Bastionado del GRUB de una Debian",
+  "summary": "Bastionado del GRUB de una Debian",
+  "source": "/media/nicolas/PEN/bastionado-debian/codelab.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "codelab",
+    "markdown"
+  ],
+  "tags": [
+    "web"
+  ],
+  "feedback": "Un enlace en el que los usuarios puedan darte feedback (quizás creando un issue en un repositorio de git)",
+  "url": "bastionado-bios"
+}
