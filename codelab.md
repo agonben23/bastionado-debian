@@ -18,6 +18,7 @@ A continuación se encuentra un resumen de los puntos que veremos en este tutori
 - Como asignar una contraseña al GRUB para proteger el arranque
 - Como establecer permisos para mejorar la seguridad de los archivos de configuración del GRUB
 - Como ocultar el menú del GRUB en el arranque
+- Como hacer una copia de seguridad de los archivos del GRUB
 
 ## Requisitos previos
 Duration: 0:01:00
@@ -89,3 +90,25 @@ sudo update-grub
 ![](./images/update_grub.png)
 
 Esto aplicará los cambios al archivo /boot/grub/grub.cfg.
+
+## Copia de seguridad de archivos GRUB
+Duration 0:02:00
+
+Para crear una copia de seguridad de la configuración del GRUB seguiremos estos pasos:
+
+Realizamos una copia de seguridad del archivo principal de configuración de GRUB  usando el siguiente comando:
+
+````bash
+sudo cp /etc/default/grub /etc/default/grub.bak
+````
+Respaldamos los scripts de configuración adicionales copiándolos a un directorio de nuestra elección:
+
+````bash
+sudo cp -r /etc/grub.d/ /ruta/de/tu/respaldo/grub.d/
+````
+
+Copiamos el archivo final de configuración usando el siguiente comando:
+
+````bash
+sudo cp /boot/grub/grub.cfg /ruta/de/tu/respaldo/grub.cfg.bak
+````
